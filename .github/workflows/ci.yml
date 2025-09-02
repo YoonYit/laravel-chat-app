@@ -52,7 +52,19 @@ jobs:
           DB_DATABASE: laravel_chat_app
           DB_USERNAME: root
           DB_PASSWORD: root
-        run: php artisan migrate --force
+        run: php artisan migrate --seed --env=testing
+
+      - name: Clear cache
+        run: php artisan config:clear
+
+      - name: Cache config
+        run: php artisan config:cache
+
+      - name: Set mail driver
+        run: php artisan config:set mail.mailer=array
+
+      - name: Storage link
+        run: php artisan storage:link
 
       - name: Run tests with coverage
         run: php artisan test --coverage --coverage-html=storage/coverage-report
